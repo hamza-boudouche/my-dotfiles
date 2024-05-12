@@ -137,6 +137,9 @@ alias ex="exit"
 alias cat="bat"
 alias icat="kitten icat"
 alias xclip="xclip -selection c"
+alias sctl="systemctl"
+alias jctl="journalctl"
+alias kdebug="kubectl run test --rm --restart=Never -it --image=ubuntu -- bash"
 
 eval "$(oh-my-posh init zsh --config ~/emodipt-extend.omp.json)"
 # eval "$(oh-my-posh init zsh)"
@@ -173,5 +176,6 @@ export PATH="/home/linuxbrew/.linuxbrew/opt/openjdk@17/bin:$PATH"
 export SPARK_HOME="/home/hamza/Downloads/spark-3.5.0-bin-hadoop3"
 export PYTHONPATH="/home/hamza/Downloads/spark-3.5.0-bin-hadoop3/python/lib/py4j-0.10.9.7-src.zip:/home/hamza/Downloads/spark-3.5.0-bin-hadoop3/python/:"
 export PATH="$SPARK_HOME/bin:$PATH"
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 fortune | cowsay | lolcat
