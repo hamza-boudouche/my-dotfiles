@@ -27,7 +27,10 @@ CASE_SENSITIVE="true"
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
 # zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Uncomment the following line to change how often to auto-update (in days).
 # zstyle ':omz:update' frequency 13
@@ -97,6 +100,8 @@ plugins=(
     zsh-cargo-completion
     golang
     asdf
+    fzf-tab
+    zsh-fzf-history-search
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -179,3 +184,8 @@ export PATH="$SPARK_HOME/bin:$PATH"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 fortune | cowsay | lolcat
+
+# tmux cleanup non used sessions (but spare the first session even if unattached) 
+tmux ls | tail -n +2 | rg -v attached | awk '{print $1}' | xargs -I {} tmux kill-session -t {} > /dev/null || true
+# tmux attach to session 0 or create it if it doesn't exist 
+tmux new-session -t 0 > /dev/null 2>&1 || tmux new > /dev/null 2>&1 || true

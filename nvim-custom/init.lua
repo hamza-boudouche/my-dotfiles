@@ -43,6 +43,4 @@ augroup LineWrapForTrouble
 augroup END
 ]])
 
--- for leap.nvim
--- require('leap').create_default_mappings()
 
