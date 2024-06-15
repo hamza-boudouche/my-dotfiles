@@ -80,7 +80,6 @@ plugins=(
     zsh-syntax-highlighting
     fast-syntax-highlighting
     history-substring-search
-    # zsh-autocomplete
     kubectl
     ansible
     aws
@@ -133,7 +132,6 @@ alias zshconfig="nvim ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias lg="lazygit"
 alias ld="lazydocker"
-alias drop_cache="sudo bash -c \"echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a && swapon -a && printf '\n%s\n' 'Ram-cache and Swap Cleared'\""
 alias ls="lsd"
 alias l="lsd -lt"
 alias t="tree"
@@ -145,6 +143,7 @@ alias xclip="xclip -selection c"
 alias sctl="systemctl"
 alias jctl="journalctl"
 alias kdebug="kubectl run test --rm --restart=Never -it --image=ubuntu -- bash"
+alias i3config="nvim ~/.config/i3/config"
 
 eval "$(oh-my-posh init zsh --config ~/emodipt-extend.omp.json)"
 # eval "$(oh-my-posh init zsh)"
@@ -165,8 +164,6 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export PATH="/home/hamza/.asdf/installs/java/openjdk-21.0.1/bin/:$PATH"
 
-export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l "" ~/(projects|notes)**'
-
 function vif() {
     local fname
     fname=$(fzf --preview 'cat --style=numbers --color=always {}') || return
@@ -178,14 +175,29 @@ export DISPLAY=":0"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 export PATH="/home/linuxbrew/.linuxbrew/opt/openjdk@17/bin:$PATH"
-export SPARK_HOME="/home/hamza/Downloads/spark-3.5.0-bin-hadoop3"
 export PYTHONPATH="/home/hamza/Downloads/spark-3.5.0-bin-hadoop3/python/lib/py4j-0.10.9.7-src.zip:/home/hamza/Downloads/spark-3.5.0-bin-hadoop3/python/:"
-export PATH="$SPARK_HOME/bin:$PATH"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 fortune | cowsay | lolcat
 
-# tmux cleanup non used sessions (but spare the first session even if unattached) 
-tmux ls | tail -n +2 | rg -v attached | awk '{print $1}' | xargs -I {} tmux kill-session -t {} > /dev/null || true
-# tmux attach to session 0 or create it if it doesn't exist 
-tmux new-session -t 0 > /dev/null 2>&1 || tmux new > /dev/null 2>&1 || true
+function tmuxattach ()
+{
+    # if no argument is given: _be mad_
+    if [ -z $1 ]; then
+        echo "USAGE: tmuxattach <SESSION_NAME>"
+        echo "the session will be created if it doesn't exist"
+    fi
+
+    # tmux attach to session $1 or create it if it doesn't exist 
+    tmux new-session -t $1 > /dev/null 2>&1 || tmux new -s $1 > /dev/null 2>&1 || true
+    
+}
+
+export -f tmuxattach
+
+# tmux clean up a set of sessions selected from unattached ones 
+function tmuxclean ()
+{
+    tmux ls | rg -v attached | fzf -m | awk '{print $1}' | xargs -I {} tmux kill-session -t {} > /dev/null || true
+}
+
