@@ -144,6 +144,7 @@ alias sctl="systemctl"
 alias jctl="journalctl"
 alias kdebug="kubectl run test --rm --restart=Never -it --image=ubuntu -- bash"
 alias i3config="nvim ~/.config/i3/config"
+alias nvimconfig="nvim ~/.config/$NVIM_APPNAME"
 
 eval "$(oh-my-posh init zsh --config ~/emodipt-extend.omp.json)"
 # eval "$(oh-my-posh init zsh)"
@@ -177,6 +178,8 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 export PATH="/home/linuxbrew/.linuxbrew/opt/openjdk@17/bin:$PATH"
 export PYTHONPATH="/home/hamza/Downloads/spark-3.5.0-bin-hadoop3/python/lib/py4j-0.10.9.7-src.zip:/home/hamza/Downloads/spark-3.5.0-bin-hadoop3/python/:"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export PATH="/home/hamza/.asdf/installs/ruby/3.3.3/bin:$PATH"
+export NVIM_APPNAME=neoneovim
 
 fortune | cowsay | lolcat
 
@@ -188,16 +191,21 @@ function tmuxattach ()
         echo "the session will be created if it doesn't exist"
     fi
 
-    # tmux attach to session $1 or create it if it doesn't exist 
+    # tmux attach to session $1 or create it if it doesn't exist
     tmux new-session -t $1 > /dev/null 2>&1 || tmux new -s $1 > /dev/null 2>&1 || true
-    
+
 }
 
-export -f tmuxattach
-
-# tmux clean up a set of sessions selected from unattached ones 
+# tmux clean up a set of sessions selected from unattached ones
 function tmuxclean ()
 {
     tmux ls | rg -v attached | fzf -m | awk '{print $1}' | xargs -I {} tmux kill-session -t {} > /dev/null || true
 }
 
+function sysfile ()
+{
+    systemctl list-units | fzf | awk '{print $1}' | xargs -I {} systemctl cat {} | cat | head -n 1 | cut -c 3-
+}
+
+# opam configuration
+[[ ! -r /home/hamza/.opam/opam-init/init.zsh ]] || source /home/hamza/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
