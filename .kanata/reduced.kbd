@@ -49,7 +49,7 @@ configuration entries.
   _    _
   1 2 3 4 5 6 7 8 9 0 - =
   @l0 @l1 @l2 _ _ _ left down up rght \
-  _ _ ret /
+  (mwheel-down 100 120) (mwheel-up 100 120) ret /
   @spc
 )
 
