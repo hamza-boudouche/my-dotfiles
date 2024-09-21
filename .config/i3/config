@@ -29,7 +29,8 @@ exec --no-startup-id dex --autostart --environment i3
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec_always --no-startup-id xset dpms 0 0 300 &
+exec --no-startup-id xss-lock --transfer-sleep-lock --nofork -- i3lock -i ~/Downloads/great-wave-of-kanagawa-gruvbox-scaled.png
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -90,11 +91,17 @@ bindsym $mod+h split h
 # split in vertical orientation
 bindsym $mod+v split v
 
+# toggle split orientation
+bindsym $mod+t split toggle
+
+# automatically toggle split orentations
+for_window [class=.*] split toggle
+
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+Shift+s layout stacking
+bindsym $mod+Shift+y layout stacking
 bindsym $mod+Shift+w layout tabbed
 bindsym $mod+Shift+t layout toggle split
 
@@ -134,6 +141,8 @@ bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
+bindsym $mod+minus scratchpad show
+bindsym $mod+Shift+minus move scratchpad
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
@@ -150,7 +159,7 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # lock the screen
-bindsym $mod+Shift+d exec i3lock -i ~/Downloads/netwall.png
+bindsym $mod+Shift+d exec i3lock -i ~/Downloads/great-wave-of-kanagawa-gruvbox-scaled.png
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
@@ -199,8 +208,8 @@ for_window [class="^.*"] border pixel 1
 
 hide_edge_borders smart_no_gaps
 
-bindsym $mod+Control+s exec --no-startup-id systemctl suspend
-# say goodbye ... at least for now 
+bindsym $mod+Shift+s exec --no-startup-id i3lock -i ~/Downloads/great-wave-of-kanagawa-gruvbox-scaled.png && systemctl suspend
+# say goodbye ... at least for now
 bindsym $mod+Shift+g exec rofi -show power-menu -modi power-menu:rofi-power-menu
 
 # custom settings by app
@@ -217,18 +226,18 @@ for_window [class="Blueman-manager" instance="blueman-manager"] floating enable
 for_window [class="Blueman-manager" instance="blueman-manager"] move absolute position center
 
 for_window [class="Nemo" instance="nemo"] floating enable
-for_window [class="Nemo" instance="nemo"] resize set 1000 800 
+for_window [class="Nemo" instance="nemo"] resize set 1000 800
 for_window [class="Nemo" instance="nemo"] move absolute position center
 
-# move floating windows with keyboard 
+# move floating windows with keyboard
 bindsym $mod+m mode "move" focus floating
 mode "move" {
     bindsym $mod+Tab focus right
 
     set $window-move-amount 50 px
 
-    bindsym Left  move left 
-    bindsym Down  move down 
+    bindsym Left  move left
+    bindsym Down  move down
     bindsym Up    move up
     bindsym Right move right
 
@@ -260,14 +269,14 @@ workspace 2 gaps outer 0
 # Only enable outer gaps when there is exactly one window or split container on the workspace.
 smart_gaps inverse_outer
 
-# colors 
+# colors
 # class                 border  backgr. text    indicator child_border
-client.focused          #4c7899 #000000 #ffffff #f50247   #285577
+client.focused          #948040 #000000 #ffffff #ffbf00   #362f1b
 
 exec --no-startup-id i3-msg 'workspace 1; exec kitty; workspace 1'
 exec --no-startup-id i3-msg 'workspace 2; exec firefox; workspace 1'
 
-exec --no-startup-id feh --bg-scale --zoom fill ~/Downloads/netwall.jpeg
+exec --no-startup-id feh --bg-scale --zoom fill ~/Downloads/great-wave-of-kanagawa-gruvbox-scaled.png
 
 bindsym $mod+Tab workspace back_and_forth
 
