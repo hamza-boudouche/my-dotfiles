@@ -145,6 +145,9 @@ alias jctl="journalctl"
 alias kdebug="kubectl run test --rm --restart=Never -it --image=ubuntu -- bash"
 alias i3config="nvim ~/.config/i3/config"
 alias nvimconfig="nvim ~/.config/$NVIM_APPNAME"
+alias hsplit="tmux split-window -h"
+alias vsplit="tmux split-window -v"
+alias tname="tmux rename-window"
 
 eval "$(oh-my-posh init zsh --config ~/emodipt-extend.omp.json)"
 # eval "$(oh-my-posh init zsh)"
@@ -189,6 +192,7 @@ function tmuxattach ()
     if [ -z $1 ]; then
         echo "USAGE: tmuxattach <SESSION_NAME>"
         echo "the session will be created if it doesn't exist"
+        return
     fi
 
     # tmux attach to session $1 or create it if it doesn't exist
@@ -205,6 +209,16 @@ function tmuxclean ()
 function sysfile ()
 {
     systemctl list-units | fzf | awk '{print $1}' | xargs -I {} systemctl cat {} | cat | head -n 1 | cut -c 3-
+}
+
+function tm ()
+{
+    # if no argument is given: switch to last window
+    if [ -z "$1" ]; then
+        tmux select-window -l
+    else
+        tmux select-window -t "$1"
+    fi
 }
 
 # opam configuration
