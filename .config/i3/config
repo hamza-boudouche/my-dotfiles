@@ -30,6 +30,7 @@ exec --no-startup-id dex --autostart --environment i3
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
 exec_always --no-startup-id xset dpms 0 0 300 &
+exec_always --no-startup-id xrandr --output HDMI-1-1 --above eDP-1-1 --rate 120 --mode 1920x1080 &
 exec --no-startup-id xss-lock --transfer-sleep-lock --nofork -- i3lock -i ~/Downloads/great-wave-of-kanagawa-gruvbox-scaled.png
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
@@ -185,8 +186,8 @@ mode "resize" {
         bindsym Right resize grow width 5 px or 5 ppt
 
         # scale and center
-        bindsym Shift+j resize shrink width 20 px or 20 ppt ; resize shrink height 20 px or 20 ppt ; move absolute position center
-        bindsym Shift+k resize grow width 20 px or 20 ppt ; resize grow height 20 px or 20 ppt ; move absolute position center
+        bindsym Shift+j resize shrink width 20 px or 20 ppt ; resize shrink height 20 px or 20 ppt ; move position center
+        bindsym Shift+k resize grow width 20 px or 20 ppt ; resize grow height 20 px or 20 ppt ; move position center
 
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
@@ -214,20 +215,23 @@ bindsym $mod+Shift+g exec rofi -show power-menu -modi power-menu:rofi-power-menu
 
 # custom settings by app
 for_window [class="Gnome-calendar" instance="gnome-calendar"] floating enable
-for_window [class="Gnome-calendar" instance="gnome-calendar"] move absolute position center
+for_window [class="Gnome-calendar" instance="gnome-calendar"] move position center
 
 for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
-for_window [class="Pavucontrol" instance="pavucontrol"] move absolute position center
+for_window [class="Pavucontrol" instance="pavucontrol"] move position center
 
 for_window [title="Update Manager"] floating enable
-for_window [title="Update Manager"] move absolute position center
+for_window [title="Update Manager"] move position center
 
 for_window [class="Blueman-manager" instance="blueman-manager"] floating enable
-for_window [class="Blueman-manager" instance="blueman-manager"] move absolute position center
+for_window [class="Blueman-manager" instance="blueman-manager"] move position center
 
 for_window [class="Nemo" instance="nemo"] floating enable
 for_window [class="Nemo" instance="nemo"] resize set 1000 800
-for_window [class="Nemo" instance="nemo"] move absolute position center
+for_window [class="Nemo" instance="nemo"] move position center
+
+# picture-in-picture firefox
+for_window [title="Picture-in-Picture"] sticky enable
 
 # move floating windows with keyboard
 bindsym $mod+m mode "move" focus floating
