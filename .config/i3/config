@@ -215,7 +215,7 @@ for_window [class="^.*"] border pixel 1
 
 hide_edge_borders smart_no_gaps
 
-bindsym $mod+Shift+s exec --no-startup-id i3lock -i ~/Downloads/great-wave-of-kanagawa-gruvbox-scaled.png && systemctl suspend
+bindsym $mod+Shift+s exec --no-startup-id ~/.config/i3/suspend.sh
 # say goodbye ... at least for now
 bindsym $mod+Shift+g exec rofi -show power-menu -modi power-menu:rofi-power-menu
 
