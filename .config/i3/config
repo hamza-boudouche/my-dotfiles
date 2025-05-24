@@ -239,6 +239,9 @@ for_window [class="Nemo" instance="nemo"] move position center
 # picture-in-picture firefox
 for_window [title="Picture-in-Picture"] sticky enable
 
+# toggle sticky window
+bindsym $mod+s sticky toggle
+
 # move floating windows with keyboard
 bindsym $mod+m mode "move" focus floating
 mode "move" {
